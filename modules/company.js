@@ -7,7 +7,8 @@ const companySchema = mongoose.Schema({
     clickCount: {
         type: Number,
         default: 0
-    }
+    },
+    siteUrl: String,
 })
 
 const CompanyObject = mongoose.model('CompanyObject', companySchema);
