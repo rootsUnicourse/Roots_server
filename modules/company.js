@@ -9,6 +9,7 @@ const companySchema = mongoose.Schema({
         default: 0
     },
     siteUrl: String,
+    discription: String,
 })
 
 const CompanyObject = mongoose.model('CompanyObject', companySchema);
