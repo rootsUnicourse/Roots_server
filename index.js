@@ -15,7 +15,7 @@ app.use(cors())
 app.use('/user', userRoutes)
 app.use('/companys', companyRoutes)
 app.get('/', (req, res) => {
-    res.send("APP IS RUNNING")
+    res.send("APP IS RUNNING AND I'M HAPPY!")
 })
 
 const CONNECTION_URL = "mongodb+srv://danel:danel@cluster0.ek9pq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority" //the url to connect the database
