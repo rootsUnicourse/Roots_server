@@ -4,6 +4,7 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 import userRoutes from './routes/users.js'
 import companyRoutes from './routes/companys.js'
+import mailRoutes from './routes/mail.js'
 // import googleUserRoutes from './routes/googleUser.js'
 
 const app = express()
@@ -14,6 +15,17 @@ app.use(cors())
 
 app.use('/user', userRoutes)
 app.use('/companys', companyRoutes)
+app.use('/mail', mailRoutes)
+
+app.post('/checkbox-clicked', (req, res) => {
+    console.log(req.body);
+    if (req.body.isChecked) {
+        res.status(200).json({ status: true });
+    } else {
+        res.status(200).json({ status: false });
+    }
+});
+
 app.get('/', (req, res) => {
     res.send("APP IS RUNNING AND I'M HAPPY!")
 })
