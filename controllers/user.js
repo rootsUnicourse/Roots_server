@@ -160,7 +160,7 @@ export const updateUser = async (req, res) => {
             { $set: user });
         
     
-        res.status(200).res.json(result);
+        res.status(200).send("User updated successfully");
         } catch (err) {
         // console.error(err);
         res.status(500).send("Internal server error");
