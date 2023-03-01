@@ -26,8 +26,11 @@
     "multer-gridfs-storage": "^5.0.2",
     "nodemailer": "^6.9.0",
     "nodemon": "^2.0.15",
-    "path": "^0.12.7",
+    "path": "^0.12.7"
+  },
+  
+  "engines": {
     "node": ">=14.20.1"
-    
   }
+  
 }
