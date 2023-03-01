@@ -38,7 +38,7 @@ router.post('/', async(req, res) =>{
             from: 'rootsunicourse@gmail.com',
             to: email,
             subject: 'Roots Password Reset Request',
-            html: `<p>Click the link below to reset your password:</p><a href="http://localhost:3000/resetpassword/${token}">Reset Password</a>`,
+            html: `<p>Click the link below to reset your password:</p><a href="https://www.rootz.website/resetpassword/${token}">Reset Password</a>`,
         };
     
         transporter.sendMail(mailOptions, (error, info) => {
