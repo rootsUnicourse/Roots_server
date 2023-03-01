@@ -15,6 +15,46 @@ export const getUsers = async (req , res) => {
     }
 }
 
+export const getUserById = async (req , res) => {
+    try {
+        const userId = req.body.id;
+        console.log(req.body);
+        const user = await User.findById(userId);
+        console.log(user)
+        res.json(user);
+    } catch (error) {
+        res.status(404).json({ message: error.message })
+    }
+}
+
+export const getChildren = async (req , res) => {
+    try {
+        const {email} = req.query
+        const children = await User.find({parantId: email});
+        const offsprings = await User.find({$or: [
+            {parantId: email},
+            {parantId: children.map(child => child.email)},
+            
+        ]});
+        res.status(200).json(offsprings)
+    } catch (error) {
+        res.status(404).json({ message: error.message })
+    }
+}
+
+export const getGrandchildren = async (req , res) => {
+    try {
+        const {first, second} = req.query
+        const children = await User.find({$or: [
+            {parantId: first},
+            {parantId: second}
+        ]});
+        res.status(200).json(children)
+    } catch (error) {
+        res.status(404).json({ message: error.message })
+    }
+}
+
 export const googleLogin = async (req , res) => {
     try {
         const { token, parantId } = req.body
@@ -24,8 +64,7 @@ export const googleLogin = async (req , res) => {
         })
 
         const payload = tickt.getPayload();
-        console.log('payload:', payload)
-
+    
         const { sub, email, name, picture } = payload;
         const user = {name: name, imageUrl: picture, email: email, id: sub, parantId: parantId}
         const existingUser = await User.findOne({ email })
@@ -92,5 +131,38 @@ export const signup = async (req, res) => {
 
     } catch (error) {
         res.status(500).json({ message: "Somthing went wrong."})
+    }
+}
+
+export const updateUser = async (req, res) => {
+    const userId = req.body.id;
+    // console.log(userId)
+
+    try {
+        const user = await User.findById(userId);
+        // console.log(user)
+        if (!user) {
+            res.status(404).send("User not found");
+            return;
+        }
+    
+        if (req.body.name) {
+            user.name = req.body.name;
+        }
+        if (req.body.newEmail) {
+            user.email = req.body.newEmail;
+        }
+        if (req.body.imageUrl) {
+            user.imageUrl = req.body.imageUrl;
+        }
+        const result = await User.updateOne(
+            { _id: userId },
+            { $set: user });
+        
+    
+        res.status(200).res.json(result);
+        } catch (err) {
+        // console.error(err);
+        res.status(500).send("Internal server error");
     }
 }

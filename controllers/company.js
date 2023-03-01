@@ -14,7 +14,7 @@ export const getCompanyBySearch = async (req ,res) => {
     const {searchQuery} = req.query
     try {
         const title = new RegExp(searchQuery, 'i');
-        console.log(title)
+        // console.log(title)
         const companys = await CompanyObject.find({ $or: [{ title }] });
         res.json({ data: companys })
     } catch (error) {
