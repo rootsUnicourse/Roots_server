@@ -36,7 +36,7 @@ export const getChildren = async (req , res) => {
             {parantId: children.map(child => child.email)},
             
         ]});
-        res.status(200).json(offsprings)
+        res.status(200).header('Content-Encoding', 'gzip').send(compress(JSON.stringify(offsprings)));
     } catch (error) {
         res.status(404).json({ message: error.message })
     }
@@ -166,3 +166,31 @@ export const updateUser = async (req, res) => {
         res.status(500).send("Internal server error");
     }
 }
+
+export const getAllDescendants = async (req, res) => {
+    try {
+      const { email } = req.query;
+      const allDescendants = await findDescendants(email);
+      res.status(200).json(allDescendants);
+    } catch (error) {
+      res.status(404).json({ message: error.message });
+    }
+  };
+  
+  const findDescendants = async (email) => {
+    const children = await User.find({ parantId: email });
+  
+    if (children.length === 0) {
+      return [];
+    }
+  
+    let descendants = children;
+  
+    for (const child of children) {
+      const childDescendants = await findDescendants(child.email);
+      descendants = descendants.concat(childDescendants);
+    }
+  
+    return descendants;
+  };
+  

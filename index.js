@@ -7,9 +7,11 @@ import companyRoutes from './routes/companys.js'
 import mailRoutes from './routes/mail.js'
 import forgetMyPassword from './routes/forgotPassword.js'
 // import googleUserRoutes from './routes/googleUser.js'
+// import compression from 'compression';
+
 
 const app = express()
-
+// app.use(compression());
 app.use(bodyParser.json({ limit: "30mb", extended: true})) // req.body
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true}))
 app.use(cors())
