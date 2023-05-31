@@ -20,7 +20,7 @@ router.post('/',(req, res) => {
     const mailOptions = {
         from: email,
         to: 'danelyehuda1998@gmail.com',
-        subject: `New message from ${name} (Roots)`,
+        subject: `New message from ${ name ? name : email} (Roots)`,
         text: message
     }
     transporter.sendMail(mailOptions, (error, info) => {

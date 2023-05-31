@@ -23,6 +23,7 @@ const userSchema = mongoose.Schema({
             default: 0 
         }
     }],
+    inviteLimit: { type: Number, default: 2 },
 })
 
 export default mongoose.model("User", userSchema)

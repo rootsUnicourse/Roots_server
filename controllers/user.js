@@ -18,9 +18,7 @@ export const getUsers = async (req , res) => {
 export const getUserById = async (req , res) => {
     try {
         const userId = req.body.id;
-        console.log(req.body);
         const user = await User.findById(userId);
-        console.log(user)
         res.json(user);
     } catch (error) {
         res.status(404).json({ message: error.message })
@@ -157,11 +155,9 @@ export const signup = async (req, res) => {
 
 export const updateUser = async (req, res) => {
     const userId = req.body.id;
-    // console.log(userId)
 
     try {
         const user = await User.findById(userId);
-        // console.log(user)
         if (!user) {
             res.status(404).send("User not found");
             return;
@@ -183,7 +179,6 @@ export const updateUser = async (req, res) => {
     
         res.status(200).send("User updated successfully");
         } catch (err) {
-        // console.error(err);
         res.status(500).send("Internal server error");
     }
 }
@@ -348,7 +343,6 @@ async function fetchAncestorUser(userId) {
 
     export const fetchUserByEmail = async (req, res) => {
         const { email } = req.query;
-        console.log(email);
         try {
             const user = await User.findOne({ email });
     
@@ -359,6 +353,28 @@ async function fetchAncestorUser(userId) {
             res.status(200).json(user);
         } catch (error) {
             res.status(500).json({ message: "Something went wrong." });
+        }
+    }
+    
+    export const getInviteLimit = async (req, res) => {
+        try {
+            const email = req.params.userId;
+            const user = await User.findOne({email});
+            res.status(200).json({inviteLimit: user.inviteLimit});
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
+    }
+    
+    export const updateInviteLimit = async (req, res) => {
+        try {
+            const email = req.params.userId;
+            const user = await User.findOne({email});
+            user.inviteLimit = req.body.inviteLimit;  // Assume the new limit is in the request body
+            await user.save();
+            res.status(200).json({inviteLimit: user.inviteLimit});
+        } catch (error) {
+            res.status(500).json({ message: error.message });
         }
     }
     

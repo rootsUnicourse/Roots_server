@@ -1,5 +1,5 @@
 import express from 'express'
-import {fetchUserByEmail,getUserMoneyDetails, addPurchase, getAllDescendants, signin, signup, getUsers, googleLogin, getChildren, getGrandchildren, updateUser, getUserById } from '../controllers/user.js'
+import {updateInviteLimit, getInviteLimit, fetchUserByEmail,getUserMoneyDetails, addPurchase, getAllDescendants, signin, signup, getUsers, googleLogin, getChildren, getGrandchildren, updateUser, getUserById } from '../controllers/user.js'
 
 const router = express.Router()
 
@@ -15,7 +15,8 @@ router.get('/descendants', getAllDescendants);
 router.post('/addPurchase', addPurchase);
 router.get('/moneyDetails/:id', getUserMoneyDetails);
 router.get('/user-by-email',fetchUserByEmail);
-
+router.get('/inviteLimit/:userId', getInviteLimit);
+router.put('/updateInviteLimit/:userId', updateInviteLimit);
 
 
 export default router
