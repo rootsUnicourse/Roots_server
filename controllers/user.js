@@ -162,7 +162,7 @@ export const updateUser = async (req, res) => {
             res.status(404).send("User not found");
             return;
         }
-    
+
         if (req.body.name) {
             user.name = req.body.name;
         }
@@ -172,16 +172,17 @@ export const updateUser = async (req, res) => {
         if (req.body.imageUrl) {
             user.imageUrl = req.body.imageUrl;
         }
-        const result = await User.updateOne(
-            { _id: userId },
-            { $set: user });
         
-    
-        res.status(200).send("User updated successfully");
-        } catch (err) {
+        // Save the updated user document
+        const updatedUser = await user.save();
+
+        // Return the updated user
+        res.status(200).json(updatedUser);
+    } catch (err) {
         res.status(500).send("Internal server error");
     }
 }
+
 
 export const getAllDescendants = async (req, res) => {
     try {
