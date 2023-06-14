@@ -22,7 +22,6 @@ app.use('/mail', mailRoutes)
 app.use('/forgotpassword', forgetMyPassword)
 
 app.post('/checkbox-clicked', (req, res) => {
-    console.log(req.body);
     if (req.body.isChecked) {
         res.status(200).json({ status: true });
     } else {

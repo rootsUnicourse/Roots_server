@@ -136,7 +136,7 @@ export const signup = async (req, res) => {
                 // create a new descendantEarning object and push it into the descendantsEarnings array
                 const newDescendantEarning = {
                     descendant: result._id,  // the ID of the newly created user
-                    earnings: 100  // replace this with the actual initial earnings value
+                    earnings: 0  // replace this with the actual initial earnings value
                 };
                 parentUser.descendantsEarnings.push(newDescendantEarning);
                 await parentUser.save();  // save the parent user after the update
