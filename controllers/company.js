@@ -32,3 +32,22 @@ export const createCompany = async (req ,res) => {
         ews.status(409).json({ message: error.message })
     }
 }
+
+export const getCompanyByUrl = async (req, res) => {
+    let {url} = req.body;
+    url = new URL(url).origin;  // This will remove extra parameters
+
+    console.log(url);
+    try {
+        const company = await CompanyObject.findOne({ siteUrl: { $regex: url, $options: 'i' } });
+        if (company) {
+            res.status(200).json(company)
+        } else {
+            res.status(404).json({ message: "Company not found" })
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
+

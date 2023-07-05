@@ -9,6 +9,7 @@ const client = new OAuth2Client("299163078742-7udqvrad5p2pc66g2im7q7bknb4pf6gh.a
 export const getUsers = async (req , res) => {
     try {
         const users = await User.find();
+        console.log(users);
         res.status(200).json(users)
     } catch (error) {
         res.status(404).json({ message: error.message })
