@@ -19,7 +19,7 @@ router.post('/',(req, res) => {
     const { name, email, message } = req.body;
     const mailOptions = {
         from: email,
-        to: 'danelyehuda1998@gmail.com',
+        to: ['danelyehuda1998@gmail.com', 'idanke86@gmail.com', 'amitke91@gmail.com'], // replace with the desired email addresses
         subject: `New message from ${ name ? name : email} (Roots)`,
         text: message
     }
