@@ -57,6 +57,7 @@ export const getGrandchildren = async (req , res) => {
 export const googleLogin = async (req , res) => {
     try {
         const { token, parentId } = req.body
+
         const tickt = await client.verifyIdToken({
             idToken: token,
             audience: "299163078742-7udqvrad5p2pc66g2im7q7bknb4pf6gh.apps.googleusercontent.com",
@@ -81,6 +82,8 @@ export const googleLogin = async (req , res) => {
     
     
 }
+
+
 
 export const signin = async (req, res) => {
     const { email, password } = req.body
@@ -152,6 +155,54 @@ export const signup = async (req, res) => {
     }
 }
 
+export const facebookLogin = async (req, res) => {
+    const { result: profileObj, token, parentId } = req.body; // This extraction assumes you're sending facebookData as the body of the request.
+    
+    const { email, name: fullName, id: facebookId, picture: imageUrl } = profileObj; 
+
+    try {
+        const existingUser = await User.findOne({ email });
+
+        if (existingUser) {
+            return res.status(200).json({ result: existingUser, token });
+        }
+
+        // Split the name into first and last name.
+        const [firstName, ...lastNameArr] = fullName.split(' ');
+        const lastName = lastNameArr.join(' ');
+
+        const user = {
+            email,
+            name: `${firstName} ${lastName}`,
+            parentId,
+            imageUrl,
+            facebookId
+        };
+
+        const result = await User.create(user);
+
+        // if the parentId exists in the user object then find the parent and add initial earnings to descendantsEarnings
+        if (parentId) {
+            const parentUser = await User.findOne({ email: parentId });
+            if (parentUser) {
+                // create a new descendantEarning object and push it into the descendantsEarnings array
+                const newDescendantEarning = {
+                    descendant: result._id,  // the ID of the newly created user
+                    earnings: 0  // replace this with the actual initial earnings value
+                };
+                parentUser.descendantsEarnings.push(newDescendantEarning);
+                await parentUser.save();  // save the parent user after the update
+            }
+        }
+
+        // Assuming 'test' is your secret key for JWT. Ideally, this should be kept in environment variables or some secret management tool.
+        const jwtToken = jwt.sign({ email: result.email, id: result._id }, 'test', { expiresIn: "1h" });
+
+        res.status(200).json({ result, token: jwtToken });
+    } catch (error) {
+        res.status(500).json({ message: "Something went wrong." });
+    }
+}
 
 
 export const updateUser = async (req, res) => {

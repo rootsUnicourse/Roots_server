@@ -37,7 +37,7 @@ router.post('/', async(req, res) =>{
         const mailOptions = {
             from: 'rootsunicourse@gmail.com',
             to: email,
-            subject: 'Roots Password Reset Request',
+            subject: 'Rootz Password Reset Request',
             html: `<p>Click the link below to reset your password:</p><a href="https://www.rootz.website/resetpassword/${token}">Reset Password</a>`,
         };
     
