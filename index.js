@@ -34,7 +34,7 @@ app.get('/', (req, res) => {
 })
 
 const CONNECTION_URL = "mongodb+srv://danel:danel@cluster0.ek9pq.mongodb.net/" //the url to connect the database
-const PORT = process.env.PORT || 5002 //the port the server working on
+const PORT = process.env.PORT || 3000 //the port the server working on
 
 mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true})
 .then(() => app.listen(PORT, '0.0.0.0', () => console.log(`Server running on port ${PORT}`)))
